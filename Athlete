@@ -1,0 +1,40 @@
+/**
+ * a representation of an athlete
+ */
+public class Athlete {
+    FinalResult finalResult;
+    String name;
+
+    Athlete(FinalResult finalResult, String name){
+
+        this.finalResult = finalResult;
+        this.name = name;
+    }
+
+    /**
+     * checks whether the current athelte is a better skiier
+     * @param anotherAthlete the athlete we are comparing with
+     * @return true if our ski points are lower
+     */
+    public boolean betterSkiier(Athlete anotherAthlete){
+        return this.finalResult.skiingResult.pointsEarned() < anotherAthlete.finalResult.skiingResult.pointsEarned();
+    }
+
+    /**
+     * checks whether the current athlete is a better shooter
+     * @param anotherAthlete the athlete we are comparing with
+     * @return true if our shooting points are higher
+     */
+    public boolean betterShooter(Athlete anotherAthlete){
+        return this.finalResult.shootingResult.pointsEarned() > anotherAthlete.finalResult.shootingResult.pointsEarned();
+    }
+
+    /**
+     * checks whether the current athlete is either a better skiier or better shooter
+     * @param anotherAthlete the athlete we are comparing with
+     * @return true if our athlete has won in any aspect
+     */
+    public boolean hasBeaten(Athlete anotherAthlete){
+        return betterSkiier(anotherAthlete) || betterShooter(anotherAthlete);
+    }
+}
