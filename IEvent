@@ -1,0 +1,7 @@
+/**
+ *interface for results
+ */
+public interface IEvent {
+    double pointsEarned();
+    double getPenalties();
+}
