@@ -1,0 +1,36 @@
+/**
+ * final combination of results
+ */
+public class FinalResult {
+    ShootingResult shootingResult;
+    SkiingResult skiingResult;
+
+    FinalResult(ShootingResult shootingResult, SkiingResult skiingResult){
+        this.shootingResult = shootingResult;
+        this.skiingResult = skiingResult;
+    }
+
+    /**
+     * computes a score based off of all results and penalties
+     * @return a final score
+     */
+    public double finalScore(){
+        double baseResults = this.skiingResult.pointsEarned() + this.skiingResult.getPenalties() +
+                this.shootingResult.getPenalties();
+
+        if (this.skiingResult.finalPosition == 1){
+            return baseResults - 10;
+        }
+        else if(this.skiingResult.finalPosition == 2){
+            return baseResults - 7;
+        }
+        else if(this.skiingResult.finalPosition == 3){
+            return baseResults - 3;
+        }
+        else if(this.skiingResult.finalPosition == 4){
+            return baseResults - 1;
+        }
+        else
+            return baseResults;
+    }
+}
