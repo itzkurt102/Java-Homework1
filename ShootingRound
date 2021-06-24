@@ -1,0 +1,12 @@
+/**
+ * represents one shooting round
+ */
+public class ShootingRound {
+    int targetsHit; //max value is 5
+    boolean standing;
+
+    ShootingRound(Integer targetsHit, boolean standing){
+        this.targetsHit = targetsHit;
+        this.standing = standing;
+    }
+}
