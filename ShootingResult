@@ -1,0 +1,60 @@
+import java.util.LinkedList;
+
+/**
+ * represents a shooting result
+ */
+public class ShootingResult implements IEvent {
+    LinkedList<ShootingRound> shootingRounds;
+
+    ShootingResult(LinkedList<ShootingRound> shootingRounds){
+        this.shootingRounds = shootingRounds;
+    }
+
+    /**
+     * calculates all points earned from 4 rounds
+     * @return the sum of out of 20
+     */
+    public double pointsEarned(){
+        double points = 0;
+        for(ShootingRound SR : this.shootingRounds){
+            points += SR.targetsHit;
+        }
+        return points;
+    }
+
+    /**
+     * calculates the penalties.
+     * @return the penalty value.
+     */
+    public double getPenalties(){
+        return (20 - pointsEarned()) * 60;
+    }
+
+    /**
+     * calculates the best round depending on position
+     * @param bestPosition the position specified
+     * @return the best shooting round
+     */
+    public ShootingRound bestRoundByType(Boolean bestPosition){ //best prone is false, best standing is true.
+        LinkedList<ShootingRound> bestProne = new LinkedList<>();
+        LinkedList<ShootingRound> bestStanding = new LinkedList<>();
+
+        for(ShootingRound SR : this.shootingRounds){
+            if(SR.targetsHit == 5 && bestPosition == false && SR.standing == false) {
+                bestProne.add(SR);
+            }
+            else if (SR.targetsHit == 5 && bestPosition && SR.standing) {
+                bestStanding.add(SR);
+            }
+        }
+        if(bestPosition && bestStanding.size() > 0){
+            return bestStanding.getFirst();
+        }
+        else if(bestPosition == false && bestProne.size() > 0) {
+            return bestProne.getFirst();
+        }
+        else
+            return null;
+    }
+
+}
