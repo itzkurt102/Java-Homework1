@@ -1,0 +1,176 @@
+
+import org.junit.Test;
+
+import java.util.LinkedList;
+
+import static org.junit.Assert.*;
+
+public class Examples {
+
+    ShootingRound firstRound = new ShootingRound(5 , true);
+    ShootingRound secondRound = new ShootingRound(2, false);
+    ShootingRound thirdRound = new ShootingRound(4, false);
+    ShootingRound fourthRound = new ShootingRound(3, true);
+
+    ShootingRound otherFirstRound = new ShootingRound(5 , false);
+    ShootingRound otherSecondRound = new ShootingRound(4, true);
+    ShootingRound otherThirdRound = new ShootingRound(4, true);
+    ShootingRound otherFourthRound = new ShootingRound(2, true);
+
+    LinkedList<ShootingRound> shootingRounds = new LinkedList<>();
+    LinkedList<ShootingRound> otherShootingRounds = new LinkedList<>();
+    LinkedList<Athlete> listAthlete1 = new LinkedList<>();
+    LinkedList<Athlete> listAthlete2 = new LinkedList<>();
+    LinkedList<Athlete> blankAthlete = new LinkedList<>();
+
+
+    public Examples(){
+        shootingRounds.add(firstRound);
+        shootingRounds.add(secondRound);
+        shootingRounds.add(thirdRound);
+        shootingRounds.add(fourthRound);
+
+        otherShootingRounds.add(otherFirstRound);
+        otherShootingRounds.add(otherSecondRound);
+        otherShootingRounds.add(otherThirdRound);
+        otherShootingRounds.add(otherFourthRound);
+
+        listAthlete1.add(firstAthlete);
+        listAthlete1.add(otherAthlete);
+
+        listAthlete2.add(sameOtherAthlete);
+        listAthlete2.add(randomAthlete);
+    }
+
+    ShootingResult firstResult = new ShootingResult(shootingRounds);
+    ShootingResult secondResult = new ShootingResult(otherShootingRounds);
+
+    MassStartResult newMassStart = new MassStartResult(10,2,25,20,31,28,3);
+
+    SkiingResult firstSki = new SkiingResult(1, 30, 32, 27, 30, 6);
+    SkiingResult secondSki = new SkiingResult(2, 30, 32, 27, 30, 6);
+    SkiingResult thirdSki = new SkiingResult(3,  30, 32, 27, 30, 6);
+    SkiingResult fourthSki = new SkiingResult(4,  30, 32, 27, 30, 6);
+    SkiingResult fifthSki = new SkiingResult(5,  22, 15, 18, 27, 6);
+
+    FinalResult finalPos1 = new FinalResult(firstResult, firstSki);
+    FinalResult finalPos2 = new FinalResult(firstResult, secondSki);
+    FinalResult finalPos3 = new FinalResult(firstResult, thirdSki);
+    FinalResult finalPos4 = new FinalResult(firstResult, fourthSki);
+    FinalResult finalPos5 = new FinalResult(firstResult, fifthSki);
+
+    Athlete firstAthlete = new Athlete(finalPos1, "George");
+    Athlete otherAthlete = new Athlete(finalPos5, "Paul");
+
+
+    Athlete sameOtherAthlete = new Athlete(finalPos2, "Paul");
+    Athlete randomAthlete = new Athlete(finalPos5, "Joe");
+
+    Competition competition1 = new Competition(5, listAthlete1);
+    Competition competition2 = new Competition(5, listAthlete2);
+    Competition blankCompetition = new Competition(5, blankAthlete);
+    Competition aLotOfRounds = new Competition(10,listAthlete1);
+
+
+
+    @Test
+    public void testShootingPoints() {
+        assertEquals(14, firstResult.pointsEarned(), 0.1);
+    }
+
+    @Test
+    public void testShootingPenalties() {
+        assertEquals(360, firstResult.getPenalties(), 0.1);
+    }
+
+    @Test
+    public void testSkiingPoints() {
+        assertEquals(119, firstSki.pointsEarned(), 0.1);
+    }
+
+    @Test
+    public void testSkiingPenalties() {
+        assertEquals(30, firstSki.getPenalties(), 0.1);
+    }
+
+    @Test
+    public void testFinalScorePos1(){
+        assertEquals(499, finalPos1.finalScore(), 0.1);
+    }
+
+    @Test
+    public void testFinalScorePos2(){
+        assertEquals(502, finalPos2.finalScore(), 0.1);
+    }
+
+    @Test
+    public void testFinalScorePos3(){
+        assertEquals(506, finalPos3.finalScore(), 0.1);
+    }
+
+    @Test
+    public void testFinalScorePos4(){
+        assertEquals(508, finalPos4.finalScore(), 0.1);
+    }
+
+    @Test
+    public void testFinalScorePos5(){ assertEquals(472, finalPos5.finalScore(), 0.1); }
+
+    @Test
+    public void testBetterSkiingAthlete(){
+        assertTrue(otherAthlete.betterSkiier(firstAthlete));
+    }
+
+    @Test
+    public void testBetterShooterAthlete(){
+        assertFalse(firstAthlete.betterShooter(otherAthlete));
+    }
+
+    @Test
+    public void hasBeatenMyAthlete(){
+        assertFalse(firstAthlete.hasBeaten(otherAthlete));
+    }
+
+    @Test
+    public void hasBeatenOtherAthlete(){
+        assertTrue(otherAthlete.hasBeaten(firstAthlete));
+    }
+
+
+    @Test
+    public void checkEmptyAthleteList(){
+        assertEquals(0,blankCompetition.finalScoreForAthlete("George"), 0);
+    }
+    @Test
+    public void checkNonEmptyList(){
+        assertEquals(472, competition1.finalScoreForAthlete("Paul"),0);
+    }
+
+    @Test
+    public void checkAnotherNonEmptyList(){
+        assertEquals(499, competition1.finalScoreForAthlete("George"),0);
+    }
+    @Test
+    public void checkWhoDNF(){
+        assertEquals(2,aLotOfRounds.shootingDNF().size(),0);
+    }
+    @Test
+    public void didAthleteImprove(){
+        assertFalse(competition1.anyImprovement(competition2));
+    }
+
+    @Test
+    public void bestStandingResultsTest(){
+        assertEquals(firstRound, firstResult.bestRoundByType(true));
+    }
+
+    @Test
+    public void nullStandingResultsTest(){
+        assertEquals(null, secondResult.bestRoundByType(true));
+    }
+
+    @Test
+    public void bestProneResultsTest(){
+        assertEquals(otherFirstRound, secondResult.bestRoundByType(false));
+    }
+}
