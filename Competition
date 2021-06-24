@@ -1,0 +1,69 @@
+import java.util.LinkedList;
+
+/**
+ * collection of athletes
+ */
+public class Competition {
+    int numOfShootingRounds;
+    LinkedList<Athlete> athletes;
+
+    public Competition(int numOfShootingRounds, LinkedList<Athlete> athletes) {
+        this.numOfShootingRounds = numOfShootingRounds;
+        this.athletes = athletes;
+    }
+
+    /**
+     * checks whether any athlete has less than the required rounds
+     * @return a list of the names of athletes with less rounds.
+     */
+    public LinkedList<String> shootingDNF(){
+        LinkedList<String> athleteNames = new LinkedList<>();
+
+        for(Athlete at : this.athletes){
+            if (at.finalResult.shootingResult.shootingRounds.size() < numOfShootingRounds){
+                athleteNames.add(at.name);
+            }
+        }
+        return athleteNames;
+    }
+
+    /**
+     * checks the final score for an athlete from a list
+     * @param athleteName the name of the athlete
+     * @return a final score
+     */
+    public double finalScoreForAthlete(String athleteName){
+        for(Athlete A: athletes){
+            if(A.name == athleteName){
+                return A.finalResult.finalScore();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * checks whether any athlete from the current competition has a better than a previous competition
+     * @param anotherCompetition the competition we are comparing
+     * @return true if any athlete had a better final score
+     */
+    public boolean anyImprovement(Competition anotherCompetition){
+
+        for(Athlete A : this.athletes){
+            for(Athlete AA : anotherCompetition.athletes){
+                if(A.name == AA.name){
+                    if(A.finalResult.finalScore() > AA.finalResult.finalScore()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * I think that finalScoreForAthlete was a clean chunk of code, since it contains a for loop that executes the
+     * needed code fairly straightforward. For anyImprovement, a helper function that split up the final scores firstly
+     * would greatly help in making the code more readable than the two indented for loops present currently.
+     */
+}
