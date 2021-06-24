@@ -1,0 +1,45 @@
+import java.util.LinkedList;
+
+/**
+ * represents a skiing result
+ */
+public class SkiingResult extends AbsResult implements IEvent{
+    double lap1;
+    double lap2;
+    double lap3;
+    double lap4;
+    LinkedList<Double> laps;
+
+    SkiingResult(Integer finalPosition, double lap1, double lap2, double lap3, double lap4, Integer penalties){
+        super(penalties, finalPosition);
+        this.laps = new LinkedList<>();
+        laps.add(lap1);
+        laps.add(lap2);
+        laps.add(lap3);
+        laps.add(lap4);
+    }
+
+    /**
+     * calculates total points from a list of laps
+     * @return the overall sum of points
+     */
+    public double pointsEarned(){
+        double points = 0;
+        for(Double d : this.laps){
+            points += d;
+        }
+        return points;
+    }
+
+    /**
+     * calculates the penalties.
+     * @return the penalty value.
+     */
+    public double getPenalties(){
+        return 5 * this.penalties;
+    }
+
+
+
+
+}
