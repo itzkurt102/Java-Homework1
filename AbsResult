@@ -1,0 +1,20 @@
+/**
+ *abstract class for results
+ */
+public abstract class AbsResult {
+    int penalties;
+    int finalPosition;
+
+    public AbsResult (int penalties, int finalPosition){
+        this.penalties = penalties;
+        this.finalPosition = finalPosition;
+    }
+
+    /**
+     * calculates the penalties.
+     * @return the penalty value.
+     */
+    public double getPenalties(){
+        return 5 * this.penalties;
+    }
+}
