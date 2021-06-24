@@ -1,0 +1,38 @@
+import java.util.LinkedList;
+
+/**
+ * represents a Nordic event
+ */
+public class MassStartResult extends AbsResult implements IEvent{
+    int startingPos;
+    double lap1;
+    double lap2;
+    double lap3;
+    double lap4;
+
+    public MassStartResult(int startingPos, int finalPosition, double lap1, double lap2, double lap3, double lap4, int penalties) {
+        super(penalties, finalPosition);
+        this.startingPos = startingPos;
+        this.lap1 = lap1;
+        this.lap2 = lap2;
+        this.lap3 = lap3;
+        this.lap4 = lap4;
+    }
+
+    /**
+     * calculates the total points for all 4 laps
+     * @return the total sum of points
+     */
+    public double pointsEarned(){
+        return this.lap1 + this.lap2 + this.lap3 + this.lap4;
+    }
+
+    /**
+     * calculates the penalties.
+     * @return the penalty value.
+     */
+    public double getPenalties(){
+        return 5 * penalties;
+    }
+
+}
